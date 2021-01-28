@@ -6,6 +6,7 @@ use App\Helpers\EstadoTransaccion;
 use App\Http\BusinessLayer\Persona;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonaController extends Controller
 {
@@ -15,11 +16,15 @@ class PersonaController extends Controller
 	function __construct(){
         $this->et        = new EstadoTransaccion();
         $this->persona   = new Persona();
+        //$this->middleware('auth');
     }
 
     public function listar()
     {
         try{
+           /* $plainPassword = "admin";
+            $newpassword = app('hash')->make($plainPassword);
+            var_dump($newpassword);*/
             $this->et->data = $this->persona->listar();            
         }catch(\Exception $e){
             $this->et->existeError  = true;

@@ -1,5 +1,4 @@
 <?php
-
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -17,12 +16,27 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 */
+/*
 $router->get('/persona', 'PersonaController@listar');
-
 $router->get('/persona/{id}', 'PersonaController@buscarPersona');
+$router->post('persona', 'PersonaController@insertar');
+$router->put('persona', 'PersonaController@actualizar');
+$router->delete('persona/{id}', 'PersonaController@eliminadoFisico');  
 
-$router->post('/persona', 'PersonaController@insertar');
-
-$router->put('/persona', 'PersonaController@actualizar');
-
-$router->delete('/persona/{id}', 'PersonaController@eliminadoFisico');
+*/
+// API route group/*
+$router->group([], function () use ($router) {
+        $router->group(['prefix' => 'api'], function () use ($router) {
+            $router->post('login', 'Seguridad\AutenticacionController@login');
+            $router->post('logout', 'Seguridad\AutenticacionController@logout');
+            $router->post('refresh', 'Seguridad\AutenticacionController@refresh');
+            $router->post('me', 'Seguridad\AutenticacionController@me'); 
+        });    
+        $router->group(['middleware' => 'auth'], function () use ($router) {
+            $router->get('persona', 'PersonaController@listar');
+            $router->get('ersona/{id}', 'PersonaController@buscarPersona');
+            $router->post('persona', 'PersonaController@insertar');
+            $router->put('persona', 'PersonaController@actualizar');
+            $router->delete('persona/{id}', 'PersonaController@eliminadoFisico');  
+         });    
+});

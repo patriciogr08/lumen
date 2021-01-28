@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Repositories;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 
 class PersonaRepository{
     private $id;
@@ -64,6 +64,5 @@ class PersonaRepository{
             throw new \Exception($e->getMessage());
         }       
     }
-
 
 }
