@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Seguridad;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterAuthRequest;
 use  App\User;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +18,7 @@ class AutenticacionController extends Controller{
         ]);
 
         $credentials = $request->only(['email', 'password']);
-        $jwt_token = null;
+        $token = null;
         if (!$token = Auth::attempt($credentials)) {
             return  response()->json([
                 'status' => 'invalid_credentials',
@@ -25,14 +26,10 @@ class AutenticacionController extends Controller{
             ], 401);
         }
         $token_generado = $this->respondWithToken($token);
-        return $token_generado;/*
-        return  response()->json([
-            'status' => 'ok',
-            'token' => $jwt_token,
-        ]);*/
+        return $token_generado;
     }
 
-    public function me()
+    /*public function me()
     {
         return response()->json(auth()->user());
     }
@@ -40,22 +37,27 @@ class AutenticacionController extends Controller{
     {
         return response()->json(auth()->payload());
     }
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    */
+
+    
     /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
-    {
-        /*auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
-        */
+    public function logout(Request  $request){
         $this->validate($request, [
             'token' => 'required'
         ]);
 
         try {
-            JWTAuth::invalidate($request->token);
+            //JWTAuth->invalidate($request->token);
+            auth()->logout();
             return  response()->json([
                 'status' => 'ok',
                 'message' => 'Cierre de sesión exitoso.'
@@ -68,15 +70,5 @@ class AutenticacionController extends Controller{
         }
 
     }
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
     
 }

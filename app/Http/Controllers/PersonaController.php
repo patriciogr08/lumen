@@ -13,10 +13,10 @@ class PersonaController extends Controller
     private $et;
     private $persona;
 
+    
 	function __construct(){
         $this->et        = new EstadoTransaccion();
         $this->persona   = new Persona();
-        //$this->middleware('auth');
     }
 
     public function listar()

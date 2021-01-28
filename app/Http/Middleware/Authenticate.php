@@ -39,7 +39,7 @@ class Authenticate
             //code...
            // $Tokenguardado = JSON.parse(localStorage.getItem("token"));
             //var_dump(Tokenguardado);
-            if ($request->header('api_token')==null) {
+            if ($this->auth->guard($guard)->guest()) {
                 return response('Unauthorized.', 401);
             }
             return $next($request);

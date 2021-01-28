@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        ‘jwt’ => \App\Http\Middleware\JWT::class;
     ];
 
     /**
